@@ -24,10 +24,12 @@ def get_connection():
     )
 
 def jsonify_error(e):
+    # إذا كان bytes، حوله إلى string
     if isinstance(e, bytes):
-        return jsonify({"error": e.decode("utf-8")})
+        msg = e.decode('utf-8', errors='replace')
     else:
-        return jsonify({"error": str(e)})
+        msg = str(e)
+    return jsonify({"error": msg})
 
 @app.route("/get_chega_table", methods=["GET"])
 def get_chega_table():
@@ -84,7 +86,7 @@ def add_chega_table():
         cursor.close()
         conn.close()
 
-        return jsonify(rows)
+        return jsonify({"status": "success"})
     except Exception as e:
         return jsonify_error(e)
 @app.route("/test_db")
