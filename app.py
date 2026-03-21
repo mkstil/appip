@@ -23,13 +23,30 @@ def get_connection():
         login_timeout=5
     )
 
-@app.route("/get_users", methods=["GET"])
+@app.route("/get_chega_table", methods=["GET"])
 def get_users():
     try:
         conn = get_connection()
         cursor = conn.cursor(as_dict=True)
 
-        cursor.execute("SELECT id, username, email FROM Users")
+        cursor.execute("SELECT id, image, prix FROM chega_table")
+        rows = cursor.fetchall()
+
+        cursor.close()
+        conn.close()
+
+        return jsonify(rows)
+
+    except Exception as e:
+        return jsonify({"error": str(e)})
+        
+@app.route("/get_gaz_table", methods=["GET"])
+def get_users():
+    try:
+        conn = get_connection()
+        cursor = conn.cursor(as_dict=True)
+
+        cursor.execute("SELECT id, image, prix FROM gaz_table")
         rows = cursor.fetchall()
 
         cursor.close()
