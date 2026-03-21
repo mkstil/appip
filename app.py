@@ -38,6 +38,9 @@ def get_chega_table():
         return jsonify(rows)
 
     except Exception as e:
+        msg = e
+        if isinstance(e, bytes):
+            msg = e.decode()
         return jsonify({"error": str(e)})
         
 @app.route("/get_gaz_table", methods=["GET"])
@@ -55,6 +58,9 @@ def get_gaz_table():
         return jsonify(rows)
 
     except Exception as e:
+        msg = e
+        if isinstance(e, bytes):
+            msg = e.decode()
         return jsonify({"error": str(e)})
 
 @app.route("/add_chega_table", methods=["POST"])
@@ -79,6 +85,9 @@ def add_chega_table():
         return jsonify({"status": "success"})
 
     except Exception as e:
+        msg = e
+        if isinstance(e, bytes):
+            msg = e.decode()
         return jsonify({"error": str(e)})
 @app.route("/test_db")
 def test_db():
