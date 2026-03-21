@@ -24,7 +24,7 @@ def get_connection():
     )
 
 @app.route("/get_chega_table", methods=["GET"])
-def get_users():
+def get_chega_table():
     try:
         conn = get_connection()
         cursor = conn.cursor(as_dict=True)
@@ -41,7 +41,7 @@ def get_users():
         return jsonify({"error": str(e)})
         
 @app.route("/get_gaz_table", methods=["GET"])
-def get_users():
+def get_gaz_table():
     try:
         conn = get_connection()
         cursor = conn.cursor(as_dict=True)
@@ -57,8 +57,8 @@ def get_users():
     except Exception as e:
         return jsonify({"error": str(e)})
 
-@app.route("/add_user", methods=["POST"])
-def add_user():
+@app.route("/add_chega_table", methods=["POST"])
+def add_chega_table():
     try:
         data = request.json
         username = data.get("username")
