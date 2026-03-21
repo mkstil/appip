@@ -23,6 +23,12 @@ def get_connection():
         login_timeout=5
     )
 
+def jsonify_error(e):
+    if isinstance(e, bytes):
+        return jsonify({"error": e.decode("utf-8")})
+    else:
+        return jsonify({"error": str(e)})
+
 @app.route("/get_chega_table", methods=["GET"])
 def get_chega_table():
     try:
@@ -38,9 +44,7 @@ def get_chega_table():
         return jsonify(rows)
 
     except Exception as e:
-        msg = e
-        if isinstance(e, bytes):
-            msg = e.decode()
+       
         return jsonify({"error": str(e)})
         
 @app.route("/get_gaz_table", methods=["GET"])
@@ -58,9 +62,7 @@ def get_gaz_table():
         return jsonify(rows)
 
     except Exception as e:
-        msg = e
-        if isinstance(e, bytes):
-            msg = e.decode()
+       
         return jsonify({"error": str(e)})
 
 @app.route("/add_chega_table", methods=["POST"])
@@ -82,13 +84,9 @@ def add_chega_table():
         cursor.close()
         conn.close()
 
-        return jsonify({"status": "success"})
-
+        return jsonify(rows)
     except Exception as e:
-        msg = e
-        if isinstance(e, bytes):
-            msg = e.decode()
-        return jsonify({"error": str(e)})
+        return jsonify_error(e)
 @app.route("/test_db")
 def test_db():
     try:
