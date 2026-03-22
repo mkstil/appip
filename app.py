@@ -23,6 +23,17 @@ def get_connection():
         login_timeout=5
     )
 
+def clean_data(data):
+    if isinstance(data, list):
+        return [clean_data(row) for row in data]
+    elif isinstance(data, dict):
+        return {k: clean_data(v) for k, v in data.items()}
+    elif isinstance(data, bytes):
+        return data.decode("utf-8", errors="replace")
+    else:
+        return data
+
+
 def jsonify_error(e):
     # إذا كان bytes، حوله إلى string
     if isinstance(e, bytes):
@@ -43,12 +54,15 @@ def get_chega_table():
         cursor.close()
         conn.close()
 
+
+        rows = clean_data(rows)  # ✅ الحل هنا
         return jsonify(rows)
 
     except Exception as e:
-       
+        if isinstance(e, bytes):
+            return jsonify({"error": e.decode("utf-8", errors="replace")})
         return jsonify({"error": str(e)})
-        
+    
 @app.route("/get_gaz_table", methods=["GET"])
 def get_gaz_table():
     try:
@@ -61,11 +75,14 @@ def get_gaz_table():
         cursor.close()
         conn.close()
 
+
+        rows = clean_data(rows)  # ✅ الحل هنا
         return jsonify(rows)
 
     except Exception as e:
-       
-        return jsonify({"error": str(e)})
+        if isinstance(e, bytes):
+            return jsonify({"error": e.decode("utf-8", errors="replace")})
+       return jsonify({"error": str(e)})
 
 @app.route("/add_chega_table", methods=["POST"])
 def add_chega_table():
