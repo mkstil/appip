@@ -50,6 +50,9 @@ def get_chega_table():
 
         cursor.execute("SELECT id, image, prix FROM chega_table")
         rows = cursor.fetchall()
+        for row in rows:
+            if isinstance(row["image"], bytes):
+                row["image"] = base64.b64encode(row["image_column"]).decode("utf-8")
 
         cursor.close()
         conn.close()
@@ -72,6 +75,11 @@ def get_gaz_table():
         cursor.execute("SELECT id, image, prix FROM gaz_table")
         rows = cursor.fetchall()
 
+        for row in rows:
+            if isinstance(row["image"], bytes):
+                row["image"] = base64.b64encode(row["image_column"]).decode("utf-8")
+
+        
         cursor.close()
         conn.close()
 
