@@ -82,7 +82,7 @@ def get_gaz_table():
     except Exception as e:
         if isinstance(e, bytes):
             return jsonify({"error": e.decode("utf-8", errors="replace")})
-       return jsonify({"error": str(e)})
+        return jsonify({"error": str(e)})
 
 @app.route("/add_chega_table", methods=["POST"])
 def add_chega_table():
