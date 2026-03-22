@@ -35,7 +35,7 @@ def clean_data(data):
 
 
 def jsonify_error(e):
-    # إذا كان bytes، حوله إلى string
+    
     if isinstance(e, bytes):
         msg = e.decode('utf-8', errors='replace')
     else:
@@ -58,7 +58,7 @@ def get_chega_table():
         conn.close()
 
 
-        rows = clean_data(rows)  # ✅ الحل هنا
+        rows = clean_data(rows)   
         return jsonify(rows)
 
     except Exception as e:
@@ -84,7 +84,7 @@ def get_gaz_table():
         conn.close()
 
 
-        rows = clean_data(rows)  # ✅ الحل هنا
+        rows = clean_data(rows)   
         return jsonify(rows)
 
     except Exception as e:
@@ -92,28 +92,218 @@ def get_gaz_table():
             return jsonify({"error": e.decode("utf-8", errors="replace")})
         return jsonify({"error": str(e)})
 
-@app.route("/add_chega_table", methods=["POST"])
-def add_chega_table():
+@app.route("/get_mouf_table", methods=["GET"])
+def get_mouf_table():
     try:
-        data = request.json
-        username = data.get("username")
-        email = data.get("email")
-
         conn = get_connection()
-        cursor = conn.cursor()
+        cursor = conn.cursor(as_dict=True)
 
-        cursor.execute(
-            "INSERT INTO Users (username, email) VALUES (%s, %s)",
-            (username, email)
-        )
+        cursor.execute("SELECT id, image, prix FROM mouf_table")
+        rows = cursor.fetchall()
 
-        conn.commit()
+        for row in rows:
+            if isinstance(row["image"], bytes):
+                row["image"] = base64.b64encode(row["image"]).decode("utf-8")
+
+        
         cursor.close()
         conn.close()
 
-        return jsonify({"status": "success"})
+
+        rows = clean_data(rows)   
+        return jsonify(rows)
+
     except Exception as e:
-        return jsonify_error(e)
+        if isinstance(e, bytes):
+            return jsonify({"error": e.decode("utf-8", errors="replace")})
+        return jsonify({"error": str(e)})
+
+
+@app.route("/get_shose_table", methods=["GET"])
+def get_shose_table():
+    try:
+        conn = get_connection()
+        cursor = conn.cursor(as_dict=True)
+
+        cursor.execute("SELECT id, image, prix FROM shose_table")
+        rows = cursor.fetchall()
+
+        for row in rows:
+            if isinstance(row["image"], bytes):
+                row["image"] = base64.b64encode(row["image"]).decode("utf-8")
+
+        
+        cursor.close()
+        conn.close()
+
+
+        rows = clean_data(rows) 
+        return jsonify(rows)
+
+    except Exception as e:
+        if isinstance(e, bytes):
+            return jsonify({"error": e.decode("utf-8", errors="replace")})
+        return jsonify({"error": str(e)})
+
+
+@app.route("/get_back_table", methods=["GET"])
+def get_back_table():
+    try:
+        conn = get_connection()
+        cursor = conn.cursor(as_dict=True)
+
+        cursor.execute("SELECT id, image, prix FROM back_table")
+        rows = cursor.fetchall()
+
+        for row in rows:
+            if isinstance(row["image"], bytes):
+                row["image"] = base64.b64encode(row["image"]).decode("utf-8")
+
+        
+        cursor.close()
+        conn.close()
+
+
+        rows = clean_data(rows)  
+        return jsonify(rows)
+
+    except Exception as e:
+        if isinstance(e, bytes):
+            return jsonify({"error": e.decode("utf-8", errors="replace")})
+        return jsonify({"error": str(e)})
+
+@app.route("/get_womth_table", methods=["GET"])
+def get_womth_table():
+    try:
+        conn = get_connection()
+        cursor = conn.cursor(as_dict=True)
+
+        cursor.execute("SELECT id, image, prix FROM womth_table")
+        rows = cursor.fetchall()
+
+        for row in rows:
+            if isinstance(row["image"], bytes):
+                row["image"] = base64.b64encode(row["image"]).decode("utf-8")
+
+        
+        cursor.close()
+        conn.close()
+
+
+        rows = clean_data(rows) 
+        return jsonify(rows)
+
+    except Exception as e:
+        if isinstance(e, bytes):
+            return jsonify({"error": e.decode("utf-8", errors="replace")})
+        return jsonify({"error": str(e)})
+
+@app.route("/get_dress_table", methods=["GET"])
+def get_dress_table():
+    try:
+        conn = get_connection()
+        cursor = conn.cursor(as_dict=True)
+
+        cursor.execute("SELECT id, image, prix FROM dress_table")
+        rows = cursor.fetchall()
+
+        for row in rows:
+            if isinstance(row["image"], bytes):
+                row["image"] = base64.b64encode(row["image"]).decode("utf-8")
+
+        
+        cursor.close()
+        conn.close()
+
+
+        rows = clean_data(rows)   
+        return jsonify(rows)
+
+    except Exception as e:
+        if isinstance(e, bytes):
+            return jsonify({"error": e.decode("utf-8", errors="replace")})
+        return jsonify({"error": str(e)})
+
+@app.route("/get_divers_table", methods=["GET"])
+def get_divers_table():
+    try:
+        conn = get_connection()
+        cursor = conn.cursor(as_dict=True)
+
+        cursor.execute("SELECT id, image, prix FROM divers_table")
+        rows = cursor.fetchall()
+
+        for row in rows:
+            if isinstance(row["image"], bytes):
+                row["image"] = base64.b64encode(row["image"]).decode("utf-8")
+
+        
+        cursor.close()
+        conn.close()
+
+
+        rows = clean_data(rows) 
+        return jsonify(rows)
+
+    except Exception as e:
+        if isinstance(e, bytes):
+            return jsonify({"error": e.decode("utf-8", errors="replace")})
+        return jsonify({"error": str(e)})
+
+@app.route("/get_child_table", methods=["GET"])
+def get_child_table():
+    try:
+        conn = get_connection()
+        cursor = conn.cursor(as_dict=True)
+
+        cursor.execute("SELECT id, image, prix FROM child_table")
+        rows = cursor.fetchall()
+
+        for row in rows:
+            if isinstance(row["image"], bytes):
+                row["image"] = base64.b64encode(row["image"]).decode("utf-8")
+
+        
+        cursor.close()
+        conn.close()
+
+
+        rows = clean_data(rows)   
+        return jsonify(rows)
+
+    except Exception as e:
+        if isinstance(e, bytes):
+            return jsonify({"error": e.decode("utf-8", errors="replace")})
+        return jsonify({"error": str(e)})
+
+@app.route("/get_imagebtn", methods=["GET"])
+def get_imagebtn():
+    try:
+        conn = get_connection()
+        cursor = conn.cursor(as_dict=True)
+
+        cursor.execute("SELECT id, image, prix FROM gaz_table")
+        rows = cursor.fetchall()
+
+        for row in rows:
+            if isinstance(row["image"], bytes):
+                row["image"] = base64.b64encode(row["image"]).decode("utf-8")
+
+        
+        cursor.close()
+        conn.close()
+
+
+        rows = clean_data(rows) 
+        return jsonify(rows)
+
+    except Exception as e:
+        if isinstance(e, bytes):
+            return jsonify({"error": e.decode("utf-8", errors="replace")})
+        return jsonify({"error": str(e)})
+
+
+ 
 @app.route("/test_db")
 def test_db():
     try:
