@@ -282,7 +282,7 @@ def get_imagebtn():
         conn = get_connection()
         cursor = conn.cursor(as_dict=True)
 
-        cursor.execute("SELECT id, image, prix FROM gaz_table")
+        cursor.execute("SELECT id, image, prix FROM imagebtn")
         rows = cursor.fetchall()
 
         for row in rows:
