@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 import pymssql
 import os
-
+import base64
 app = Flask(__name__)
 CORS(app)
 
