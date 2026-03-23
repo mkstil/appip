@@ -56,7 +56,7 @@ def get_all_data():
         # Chega
         cursor.execute("SELECT * FROM chega_table")
         chega = cursor.fetchall()
-         for row in chega:
+        for row in chega:
             if isinstance(row["image"], bytes):
                 row["image"] = base64.b64encode(row["image"]).decode("utf-8")
 
