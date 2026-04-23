@@ -42,7 +42,26 @@ def jsonify_error(e):
         msg = str(e)
     return jsonify({"error": msg})
 
- 
+@app.route("/image/<table>/<int:image_id>")
+def get_image(table, image_id):
+    try:
+        conn = get_connection()
+        cursor = conn.cursor()
+
+        cursor.execute(f"SELECT image FROM {table} WHERE id=%s", (image_id,))
+        row = cursor.fetchone()
+
+        cursor.close()
+        conn.close()
+
+        if not row:
+            return "Not found", 404
+
+        return row[0], 200, {"Content-Type": "image/png"}
+
+    except Exception as e:
+        return str(e), 500
+
 
 
 
@@ -58,7 +77,7 @@ def get_chega_table():
 
         for row in rows:
             if row.get("image") and isinstance(row["image"], bytes):
-                row["image"] = "data:image/png;base64," + base64.b64encode(row["image"]).decode("utf-8")
+                row["image_url"] = f"{BASE_URL}/image/chega_table/{row['id']}"
                # row["image"] = base64.b64encode(row["image"]).decode("utf-8")
 
         cursor.close()
@@ -81,7 +100,7 @@ def get_gaz_table():
 
         for row in rows:
             if row.get("image") and isinstance(row["image"], bytes):
-                row["image"] = base64.b64encode(row["image"]).decode("utf-8")
+                row["image_url"] = f"{BASE_URL}/image/chega_table/{row['id']}"
 
         cursor.close()
         conn.close()
@@ -104,7 +123,7 @@ def get_mouf_table():
 
         for row in rows:
             if row.get("image") and isinstance(row["image"], bytes):
-                row["image"] = base64.b64encode(row["image"]).decode("utf-8")
+                rrow["image_url"] = f"{BASE_URL}/image/chega_table/{row['id']}"
 
         cursor.close()
         conn.close()
