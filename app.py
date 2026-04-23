@@ -42,6 +42,10 @@ def jsonify_error(e):
         msg = str(e)
     return jsonify({"error": msg})
 
+
+BASE_URL = "https://lasttijo-25.onrender.com"
+
+
 @app.route("/image/<table>/<int:image_id>")
 def get_image(table, image_id):
     try:
