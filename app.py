@@ -42,7 +42,7 @@ def jsonify_error(e):
         msg = str(e)
     return jsonify({"error": msg})
 
-@app.route("/get_chega_table", methods=["GET"])
+ 
 
 
 
@@ -58,7 +58,8 @@ def get_chega_table():
 
         for row in rows:
             if row.get("image") and isinstance(row["image"], bytes):
-                row["image"] = base64.b64encode(row["image"]).decode("utf-8")
+                row["image"] = "data:image/png;base64," + base64.b64encode(row["image"]).decode("utf-8")
+               # row["image"] = base64.b64encode(row["image"]).decode("utf-8")
 
         cursor.close()
         conn.close()
